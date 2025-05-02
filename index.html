@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realm of the Deep Sea</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1>Realm of the Deep Sea</h1>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p>Preparing your underwater adventure...</p>
+        </div>
+    </div>
+
+    <div id="info">
+        <h1>Realm of the Deep Sea</h1>
+        <p>Click to start exploring</p>
+        <p class="controls">WASD = Move | SPACE = Up | SHIFT = Down | MOUSE = Look</p>
+    </div>
+
+    <div id="scene-container"></div>
+
+    <!-- Vignette Overlay -->
+    <div id="vignette"></div>
+
+    <!-- HUD Elements -->
+    <div id="hud">
+        <div id="compass">
+            <div class="compass-inner">
+                <div class="compass-arrow"></div>
+                <div class="compass-labels">
+                    <span class="north">N</span>
+                    <span class="east">E</span>
+                    <span class="south">S</span>
+                    <span class="west">W</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="depth-meter">
+            <div class="depth-label">DEPTH</div>
+            <div class="depth-value">0m</div>
+            <div class="depth-bar-container">
+                <div class="depth-bar"></div>
+            </div>
+        </div>
+
+        <div id="oxygen-meter">
+            <div class="oxygen-icon"><i class="fas fa-lungs"></i></div>
+            <div class="oxygen-bar-container">
+                <div class="oxygen-bar"></div>
+            </div>
+        </div>
+
+        <div id="flashlight-indicator">
+            <i class="fas fa-lightbulb"></i>
+        </div>
+    </div>
+
+    <!-- Discovery Notification -->
+    <div id="discovery-notification">
+        <div class="discovery-icon"><i class="fas fa-star"></i></div>
+        <div class="discovery-content">
+            <h3>New Discovery!</h3>
+            <p id="discovery-text">You found something interesting...</p>
+        </div>
+    </div>
+
+    <!-- Import maps polyfill -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Main Script -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
