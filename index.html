@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realm of the Deep Sea</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -32,6 +33,26 @@
 
     <!-- HUD Elements -->
     <div id="hud">
+        <!-- 迷你地图 -->
+        <div id="minimap">
+            <div class="minimap-container">
+                <canvas id="minimap-canvas"></canvas>
+                <div class="minimap-player"></div>
+                <div class="minimap-border"></div>
+            </div>
+            <div class="minimap-label">SONAR</div>
+        </div>
+
+        <!-- 速度计 -->
+        <div id="speedometer">
+            <div class="speed-label">SPEED</div>
+            <div class="speed-value">0</div>
+            <div class="speed-unit">m/s</div>
+            <div class="speed-gauge">
+                <div class="speed-needle"></div>
+            </div>
+        </div>
+
         <div id="compass">
             <div class="compass-inner">
                 <div class="compass-arrow"></div>
@@ -73,6 +94,21 @@
         </div>
     </div>
 
+    <!-- 警告系统 -->
+    <div id="warning-system">
+        <div class="warning-icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="warning-text">WARNING: Low Oxygen</div>
+    </div>
+
+    <!-- 气泡效果容器 -->
+    <div id="bubbles-container"></div>
+
+    <!-- 粒子效果容器 -->
+    <div id="particles-container"></div>
+
+    <!-- 扫描效果 -->
+    <div id="scan-effect"></div>
+
     <!-- Import maps polyfill -->
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
@@ -86,5 +122,18 @@
 
     <!-- Main Script -->
     <script type="module" src="js/main.js"></script>
+    
+    <!-- Visual Effects Script -->
+    <script type="module">
+        import VisualEffectsManager from './js/visual-effects.js';
+        
+        // 在页面加载完成后初始化视觉效果
+        window.addEventListener('DOMContentLoaded', () => {
+            const visualEffects = new VisualEffectsManager();
+            
+            // 将视觉效果管理器暴露到全局，便于其他脚本使用
+            window.visualEffects = visualEffects;
+        });
+    </script>
 </body>
 </html>

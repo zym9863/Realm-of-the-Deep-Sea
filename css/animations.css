@@ -1,0 +1,525 @@
+/**
+ * animations.css - 深海探索游戏动画和特效样式
+ * 包含粒子效果、气泡动画、扫描效果等视觉元素
+ */
+
+/* ==================== 迷你地图样式 ==================== */
+#minimap {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at center, rgba(0, 50, 100, 0.9), rgba(0, 30, 60, 0.95));
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 
+        0 0 30px var(--glow-color),
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    animation: radar-pulse 4s ease-in-out infinite;
+}
+
+@keyframes radar-pulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 30px var(--glow-color),
+            inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 0 50px var(--glow-color),
+            inset 0 0 30px rgba(0, 229, 255, 0.2);
+    }
+}
+
+.minimap-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#minimap-canvas {
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+}
+
+.minimap-player {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: player-pulse 1s ease-in-out infinite;
+}
+
+@keyframes player-pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.7;
+    }
+}
+
+.minimap-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(0, 229, 255, 0.3);
+    border-radius: 50%;
+    animation: rotate-border 10s linear infinite;
+}
+
+@keyframes rotate-border {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.minimap-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--primary-color);
+    text-shadow: 0 0 5px var(--glow-color);
+}
+
+/* 雷达扫描线效果 */
+#minimap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(0, 229, 255, 0.5) 30deg,
+        transparent 60deg
+    );
+    animation: radar-sweep 3s linear infinite;
+}
+
+@keyframes radar-sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ==================== 速度计样式 ==================== */
+#speedometer {
+    position: absolute;
+    top: 100px;
+    right: 30px;
+    width: 100px;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.9), rgba(0, 50, 100, 0.7));
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 
+        0 0 25px var(--glow-color),
+        inset 0 0 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    animation: fadeInRight 0.8s ease-out;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.speed-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.speed-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--glow-color);
+    animation: data-flicker 3s ease-in-out infinite;
+}
+
+@keyframes data-flicker {
+    0%, 100% { opacity: 1; }
+    95% { opacity: 0.9; }
+}
+
+.speed-unit {
+    font-size: 12px;
+    color: var(--secondary-color);
+    opacity: 0.8;
+}
+
+.speed-gauge {
+    position: relative;
+    width: 80px;
+    height: 40px;
+    margin: 10px auto 0;
+    border: 2px solid rgba(0, 229, 255, 0.3);
+    border-bottom: none;
+    border-radius: 40px 40px 0 0;
+    overflow: hidden;
+}
+
+.speed-needle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 35px;
+    background: var(--accent-color);
+    transform-origin: bottom center;
+    transform: translateX(-50%) rotate(-90deg);
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 5px var(--accent-color);
+}
+
+/* ==================== 警告系统样式 ==================== */
+#warning-system {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 100, 0, 0.2));
+    border: 3px solid var(--danger-color);
+    border-radius: 20px;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 
+        0 0 50px rgba(255, 0, 0, 0.5),
+        inset 0 0 30px rgba(255, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+#warning-system.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    animation: warning-flash 0.5s ease-in-out infinite;
+}
+
+@keyframes warning-flash {
+    0%, 100% {
+        border-color: var(--danger-color);
+        box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+    }
+    50% {
+        border-color: rgba(255, 0, 0, 0.3);
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    }
+}
+
+.warning-icon {
+    font-size: 32px;
+    color: var(--danger-color);
+    animation: warning-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes warning-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.warning-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--danger-color);
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
+
+/* ==================== 气泡效果 ==================== */
+#bubbles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 80;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(0, 229, 255, 0.4));
+    border-radius: 50%;
+    bottom: -50px;
+    animation: bubble-rise 10s infinite ease-in-out;
+    filter: blur(0.5px);
+}
+
+@keyframes bubble-rise {
+    0% {
+        bottom: -50px;
+        opacity: 0;
+        transform: translateX(0) scale(0.5);
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(100px) scale(1.5);
+    }
+}
+
+.bubble:nth-child(odd) {
+    animation-duration: 12s;
+    animation-delay: 1s;
+}
+
+.bubble:nth-child(even) {
+    animation-duration: 8s;
+    animation-delay: 2s;
+}
+
+/* ==================== 粒子效果 ==================== */
+#particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 85;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 229, 255, 0.6);
+    border-radius: 50%;
+    animation: float-particle 20s infinite linear;
+    box-shadow: 0 0 3px rgba(0, 229, 255, 0.4);
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+    }
+}
+
+/* ==================== 扫描效果 ==================== */
+#scan-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 95;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#scan-effect.active {
+    opacity: 1;
+    animation: scan-sweep 2s ease-out;
+}
+
+@keyframes scan-sweep {
+    0% {
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 229, 255, 0.3) 5%,
+            transparent 10%
+        );
+        background-position: 0 -100%;
+    }
+    100% {
+        background-position: 0 200%;
+    }
+}
+
+/* ==================== 手电筒增强效果 ==================== */
+#flashlight-indicator {
+    transition: all 0.3s ease;
+    animation: fadeInRight 0.8s ease-out 0.6s both;
+}
+
+#flashlight-indicator.on {
+    background: radial-gradient(circle at center, rgba(255, 235, 59, 0.3), rgba(255, 193, 7, 0.1));
+    border-color: var(--accent-color);
+    animation: flashlight-glow 2s ease-in-out infinite;
+}
+
+@keyframes flashlight-glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(255, 235, 59, 0.5),
+            inset 0 0 10px rgba(255, 235, 59, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(255, 235, 59, 0.7),
+            inset 0 0 15px rgba(255, 235, 59, 0.3);
+    }
+}
+
+/* ==================== 深度计增强动画 ==================== */
+.depth-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.depth-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: depth-shine 3s linear infinite;
+}
+
+@keyframes depth-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* ==================== 全息效果 ==================== */
+.holographic {
+    position: relative;
+    background: linear-gradient(45deg, 
+        rgba(0, 229, 255, 0.1),
+        rgba(255, 0, 255, 0.1),
+        rgba(0, 255, 255, 0.1)
+    );
+    background-size: 200% 200%;
+    animation: hologram 3s ease-in-out infinite;
+}
+
+@keyframes hologram {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==================== 脉冲环效果 ==================== */
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: pulse-ring-expand 2s ease-out infinite;
+}
+
+@keyframes pulse-ring-expand {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* ==================== 数据流效果 ==================== */
+.data-stream {
+    position: relative;
+    overflow: hidden;
+}
+
+.data-stream::before {
+    content: '101010110101';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(0, 229, 255, 0.1);
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    animation: data-flow 5s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes data-flow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ==================== 响应式调整 ==================== */
+@media (max-width: 768px) {
+    #minimap {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #speedometer {
+        right: 20px;
+        top: 80px;
+    }
+    
+    .speed-value {
+        font-size: 24px;
+    }
+}
+
+/* ==================== 性能优化 ==================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

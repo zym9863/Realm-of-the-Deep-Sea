@@ -1,12 +1,51 @@
+/* 导入字体 */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+
+/* CSS变量定义 */
+:root {
+    --primary-color: #00e5ff;
+    --secondary-color: #4fc3f7;
+    --accent-color: #ffc107;
+    --danger-color: #ff5252;
+    --success-color: #4caf50;
+    --background-dark: rgba(0, 20, 40, 0.9);
+    --background-light: rgba(0, 50, 100, 0.3);
+    --glow-color: rgba(0, 229, 255, 0.6);
+}
+
 /* Base Styles */
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #000;
+    background: radial-gradient(ellipse at center, #001428 0%, #000511 100%);
     color: white;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Rajdhani', 'Segoe UI', Arial, sans-serif;
     cursor: crosshair;
+    position: relative;
+}
+
+/* 添加扫描线效果 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        transparent 50%,
+        rgba(0, 229, 255, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+    animation: scanlines 8s linear infinite;
+}
+
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(10px); }
 }
 
 #scene-container {
@@ -24,7 +63,7 @@ body {
     height: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(to bottom, #001428, #003366);
+    background: radial-gradient(ellipse at center, #001a33 0%, #000511 100%);
     z-index: 2000;
     display: flex;
     justify-content: center;
@@ -32,31 +71,81 @@ body {
     transition: opacity 1s ease-in-out;
 }
 
+/* 添加波浪动画背景 */
+#loading-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230099ff" fill-opacity="0.1" d="M0,32L48,37.3C96,43,192,53,288,80C384,107,480,149,576,149.3C672,149,768,107,864,112C960,117,1056,171,1152,186.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.3;
+    animation: waves 10s linear infinite;
+}
+
+@keyframes waves {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 .loading-content {
     text-align: center;
     max-width: 500px;
-    padding: 30px;
-    background-color: rgba(0, 30, 60, 0.7);
-    border-radius: 15px;
-    border: 2px solid rgba(79, 195, 247, 0.5);
-    box-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.9) 0%, rgba(0, 50, 100, 0.7) 100%);
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 
+        0 0 50px rgba(0, 229, 255, 0.3),
+        inset 0 0 20px rgba(0, 229, 255, 0.1);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.loading-content h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow-text 2s ease-in-out infinite;
+}
+
+@keyframes glow-text {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
 }
 
 .loading-bar-container {
     width: 100%;
-    height: 10px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    margin: 20px 0;
+    height: 12px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 10px;
+    margin: 25px 0;
     overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .loading-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(to right, #4fc3f7, #03a9f4);
-    border-radius: 5px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 200% 100%;
+    border-radius: 10px;
     transition: width 0.3s ease-out;
+    animation: shimmer 2s linear infinite;
+    box-shadow: 0 0 20px var(--glow-color);
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
 }
 
 /* Vignette Effect */
@@ -85,17 +174,45 @@ body {
     z-index: 100;
     display: block;
     pointer-events: none;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    animation: fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h1 {
-    font-size: 28px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
     margin: 0;
     padding: 0;
-    color: #4fc3f7;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+    letter-spacing: 4px;
+    text-shadow: 
+        0 0 20px var(--glow-color),
+        0 0 40px var(--glow-color),
+        0 0 60px var(--glow-color);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        filter: brightness(1) drop-shadow(0 0 10px var(--glow-color));
+    }
+    50% { 
+        filter: brightness(1.2) drop-shadow(0 0 20px var(--glow-color));
+    }
 }
 
 p {
@@ -121,22 +238,56 @@ p {
 /* Compass */
 #compass {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 100px;
-    height: 100px;
+    bottom: 30px;
+    right: 30px;
+    width: 120px;
+    height: 120px;
     pointer-events: none;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .compass-inner {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: rgba(0, 30, 60, 0.7);
-    border: 2px solid rgba(79, 195, 247, 0.5);
-    box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+    background: radial-gradient(circle at center, rgba(0, 50, 100, 0.8), rgba(0, 30, 60, 0.9));
+    border: 3px solid var(--primary-color);
+    box-shadow: 
+        0 0 30px var(--glow-color),
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        0 4px 8px rgba(0, 0, 0, 0.5);
     position: relative;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
+    animation: rotate-slow 60s linear infinite;
+}
+
+@keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.compass-inner::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
 }
 
 .compass-arrow {
@@ -195,32 +346,49 @@ p {
 /* Depth Meter */
 #depth-meter {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background-color: rgba(0, 30, 60, 0.7);
-    border: 2px solid rgba(79, 195, 247, 0.5);
-    padding: 10px;
-    border-radius: 10px;
+    bottom: 30px;
+    left: 30px;
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.9), rgba(0, 50, 100, 0.7));
+    border: 2px solid var(--primary-color);
+    padding: 15px;
+    border-radius: 15px;
     pointer-events: none;
     text-align: center;
-    min-width: 80px;
-    box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-    backdrop-filter: blur(5px);
+    min-width: 100px;
+    box-shadow: 
+        0 0 25px var(--glow-color),
+        inset 0 0 15px rgba(0, 0, 0, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .depth-label {
-    font-size: 12px;
-    opacity: 0.8;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.9;
     margin-bottom: 5px;
-    color: #4fc3f7;
+    color: var(--primary-color);
 }
 
 .depth-value {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4fc3f7;
-    margin-bottom: 5px;
-    text-shadow: 0 0 5px rgba(79, 195, 247, 0.7);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    text-shadow: 
+        0 0 10px var(--glow-color),
+        0 0 20px var(--glow-color);
+    animation: pulse-value 2s ease-in-out infinite;
+}
+
+@keyframes pulse-value {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .depth-bar-container {
@@ -242,41 +410,89 @@ p {
 /* Oxygen Meter */
 #oxygen-meter {
     position: absolute;
-    bottom: 20px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 30, 60, 0.7);
-    border: 2px solid rgba(79, 195, 247, 0.5);
-    padding: 10px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(0, 30, 60, 0.9), rgba(0, 50, 100, 0.7));
+    border: 2px solid var(--primary-color);
+    padding: 12px 20px;
+    border-radius: 25px;
     pointer-events: none;
     display: flex;
     align-items: center;
-    min-width: 150px;
-    box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
-    backdrop-filter: blur(5px);
+    min-width: 200px;
+    box-shadow: 
+        0 0 25px var(--glow-color),
+        inset 0 0 15px rgba(0, 0, 0, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .oxygen-icon {
-    margin-right: 10px;
-    color: #4fc3f7;
-    font-size: 18px;
+    margin-right: 15px;
+    color: var(--primary-color);
+    font-size: 20px;
+    animation: breathe 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px var(--glow-color));
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
 }
 
 .oxygen-bar-container {
     flex-grow: 1;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    height: 10px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+    border-radius: 10px;
     overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.oxygen-bar-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .oxygen-bar {
     height: 100%;
     width: 100%;
-    background: linear-gradient(to right, #f44336, #ff9800, #4caf50);
-    border-radius: 4px;
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, var(--danger-color), var(--accent-color), var(--success-color));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px currentColor;
+    position: relative;
+    overflow: hidden;
+}
+
+.oxygen-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: wave 2s linear infinite;
+}
+
+@keyframes wave {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 /* Flashlight Indicator */
